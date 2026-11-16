@@ -162,6 +162,9 @@ export function createHud() {
       clearTimeout(bannerTimer);
       bannerTimer = setTimeout(() => bannerEl.classList.remove('show'), ms);
     },
+    moveBanner(top) {
+      bannerEl.style.top = top;
+    },
     killfeed(feed) {
       const key = feed.map((f) => f.text).join('|');
       if (key === lastFeedKey) return;
