@@ -36,8 +36,8 @@ renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 document.getElementById('game').appendChild(renderer.domElement);
 
 const scene = new THREE.Scene();
-scene.background = new THREE.Color('#232a38');
-scene.fog = new THREE.Fog(new THREE.Color('#232a38'), 30, 95);
+scene.background = new THREE.Color('#2c3547');
+scene.fog = new THREE.Fog(new THREE.Color('#2c3547'), 30, 95);
 const camera = new THREE.PerspectiveCamera(74, window.innerWidth / window.innerHeight, 0.05, 220);
 scene.add(camera);
 
@@ -709,29 +709,38 @@ function runShot(name) {
   if (name === 'start') {
     camera.position.set(16, 10, 22);
     camera.lookAt(0, 1, -8);
+    hud.drawMinimap(player.state, bots.agents, world.sites, new Set(), null);
     hud.showOverlay('start');
     paintTwiceThenReady(true);
     return;
   }
   if (name === 'play') {
-    player.teleport(0, 10, 0);
+    // Clear ground: the player stands south of mid, the Jackal in the open west of
+    // the mid pillar, so the sightline misses the pillar and the shot lands.
+    player.teleport(5, 14, 0);
     const jackal = bots.agents.find((a) => a.team === 'jackal');
     const jackal2 = bots.agents.find((a) => a.team === 'jackal' && a !== jackal);
     if (jackal) {
-      jackal.position.set(-2, 0, -4);
+      jackal.position.set(-6, 0, -2);
       jackal.body.group.position.copy(jackal.position);
       jackal.path = [];
+      jackal.state = 'hold';
+      jackal.holdUntil = 9999;
     }
     if (jackal2) {
-      jackal2.position.set(4, 0, -8);
+      jackal2.position.set(8, 0, -6);
       jackal2.body.group.position.copy(jackal2.position);
       jackal2.path = [];
+      jackal2.state = 'hold';
+      jackal2.holdUntil = 9999;
     }
     const mate = bots.agents.find((a) => a.team === 'vanguard');
     if (mate) {
-      mate.position.set(-3, 0, 12);
+      mate.position.set(-3, 0, 15);
       mate.body.group.position.copy(mate.position);
       mate.path = [];
+      mate.state = 'hold';
+      mate.holdUntil = 9999;
     }
     settle(30);
     if (jackal) {
@@ -743,14 +752,17 @@ function runShot(name) {
     paintTwiceThenReady(false);
     return;
   }
-  // end: the match is over, Vanguard won 5-3; the scoreboard is up.
+  // end: the match is over, Vanguard won 5-3. The banner and the scoreboard carry
+  // the result; the start overlay stays hidden so they read at a glance.
   match.state.score.vanguard = 5;
   match.state.score.jackal = 3;
   match.state.matchWinner = 'vanguard';
-  match.state.phase = 'matchEnd';
   player.teleport(0, 14, 0);
   settle(20);
-  hud.showOverlay('end', { winner: 'vanguard', scoreV: 5, scoreJ: 3, kills: 7 });
+  match.state.phase = 'matchEnd';
+  hud.setScore(5, 3);
+  hud.setRound(8);
+  hud.banner('VANGUARD WINS THE MATCH', 'Final score 5–3 · You had 7 eliminations', 60000);
   hud.showScoreboard(true, [
     { name: 'You', team: 'vanguard', kills: 7, deaths: 3, alive: true, money: 4200 },
     ...bots.agents.map((a) => ({ name: a.name, team: a.team, kills: 2, deaths: 3, alive: a.team === 'vanguard', money: 1500 })),

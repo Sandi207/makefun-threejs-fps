@@ -30,9 +30,9 @@ function speckle(ctx, size, count, colors, alpha) {
 export function makeTextures() {
   // Weathered concrete: grey base, darker blotches, hairline cracks.
   const concrete = canvasTexture(256, (ctx, s) => {
-    ctx.fillStyle = '#3a3d42';
+    ctx.fillStyle = '#484b51';
     ctx.fillRect(0, 0, s, s);
-    speckle(ctx, s, 900, ['#2e3136', '#46494f', '#55585e'], 0.5);
+    speckle(ctx, s, 900, ['#3a3d42', '#55585e', '#63666c'], 0.5);
     ctx.strokeStyle = 'rgba(20, 21, 24, 0.55)';
     ctx.lineWidth = 1;
     for (let i = 0; i < 7; i += 1) {
@@ -69,9 +69,9 @@ export function makeTextures() {
 
   // Asphalt yard: near-black with painted lane dashes and tyre wear.
   const asphalt = canvasTexture(256, (ctx, s) => {
-    ctx.fillStyle = '#26282c';
+    ctx.fillStyle = '#313438';
     ctx.fillRect(0, 0, s, s);
-    speckle(ctx, s, 1400, ['#1c1e21', '#33363b', '#3d4046'], 0.5);
+    speckle(ctx, s, 1400, ['#26292d', '#3d4046', '#484b51'], 0.5);
     ctx.fillStyle = 'rgba(242, 167, 27, 0.75)';
     ctx.fillRect(s * 0.46, 0, 10, s * 0.28);
     ctx.fillRect(s * 0.46, s * 0.62, 10, s * 0.28);

@@ -72,7 +72,8 @@ function buildViewModel(def) {
     pump.position.set(0, -0.02, -0.28);
     model.add(pump);
   }
-  model.position.set(0.24, -0.2, -0.42);
+  model.position.set(0.25, -0.24, -0.62);
+  model.scale.setScalar(0.65);
   return model;
 }
 
@@ -81,11 +82,11 @@ export function createWeaponRig(camera) {
     new THREE.PlaneGeometry(0.26, 0.26),
     new THREE.MeshBasicMaterial({ color: new THREE.Color(PALETTE.accent), transparent: true, opacity: 0.9, depthWrite: false, side: THREE.DoubleSide }),
   );
-  flash.position.set(0.24, -0.18, -0.95);
+  flash.position.set(0.25, -0.22, -1.05);
   flash.visible = false;
   camera.add(flash);
   const flashLight = new THREE.PointLight(new THREE.Color(PALETTE.accent), 0, 5);
-  flashLight.position.set(0.24, -0.16, -0.6);
+  flashLight.position.set(0.25, -0.2, -0.75);
   camera.add(flashLight);
 
   let model = null;
@@ -115,7 +116,7 @@ export function createWeaponRig(camera) {
     state.flash = Math.max(0, state.flash - dt);
     state.kick += (0 - state.kick) * Math.min(1, dt * 14);
     if (model) {
-      model.position.z = -0.42 + state.kick;
+      model.position.z = -0.62 + state.kick;
       model.rotation.x = state.kick * 2.2;
       if (state.reloadLeft > 0) {
         model.rotation.x = -0.55 * Math.min(1, (state.reloadTotal - state.reloadLeft) * 2);

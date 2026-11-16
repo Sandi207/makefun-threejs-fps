@@ -154,7 +154,7 @@ export function createWorld(scene) {
     group.add(lamp);
   }
   for (const [x, z] of [[-14, 14], [14, -14]]) {
-    const light = new THREE.PointLight(new THREE.Color('#f2a71b'), 22, 26, 1.6);
+    const light = new THREE.PointLight(new THREE.Color('#f2a71b'), 30, 26, 1.6);
     light.position.set(x, 5.6, z);
     scene.add(light);
   }
@@ -198,8 +198,8 @@ export function createWorld(scene) {
   }
 
   // Lighting: dusk hemisphere, a low warm key sun, a cool fill.
-  scene.add(new THREE.HemisphereLight(new THREE.Color('#5a6b84'), new THREE.Color('#1c1a16'), 0.95));
-  const key = new THREE.DirectionalLight(new THREE.Color('#ffb45e'), 2.4);
+  scene.add(new THREE.HemisphereLight(new THREE.Color('#6b7d99'), new THREE.Color('#2a241c'), 1.35));
+  const key = new THREE.DirectionalLight(new THREE.Color('#ffb45e'), 3.0);
   key.position.set(28, 22, 18);
   key.target.position.set(-6, 0, -6);
   key.castShadow = true;
