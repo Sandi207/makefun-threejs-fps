@@ -715,20 +715,20 @@ function runShot(name) {
     return;
   }
   if (name === 'play') {
-    // Clear ground: the player stands south of mid, the Jackal in the open west of
-    // the mid pillar, so the sightline misses the pillar and the shot lands.
-    player.teleport(5, 14, 0);
+    // Clear ground: the player stands south-east of mid, the Jackal in the open west
+    // of the mid pillar, so the sightline misses the pillar and the shot lands.
+    player.teleport(10, 14, 0);
     const jackal = bots.agents.find((a) => a.team === 'jackal');
     const jackal2 = bots.agents.find((a) => a.team === 'jackal' && a !== jackal);
     if (jackal) {
-      jackal.position.set(-6, 0, -2);
+      jackal.position.set(-8, 0, -2);
       jackal.body.group.position.copy(jackal.position);
       jackal.path = [];
       jackal.state = 'hold';
       jackal.holdUntil = 9999;
     }
     if (jackal2) {
-      jackal2.position.set(8, 0, -6);
+      jackal2.position.set(4, 0, -6);
       jackal2.body.group.position.copy(jackal2.position);
       jackal2.path = [];
       jackal2.state = 'hold';
